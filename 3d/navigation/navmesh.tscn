@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dkhg8e00d02f2"]
+[gd_scene load_steps=10 format=3 uid="uid://d27qm32fyhfcr"]
 
 [ext_resource type="Script" path="res://navmesh.gd" id="1"]
 [ext_resource type="NavigationMesh" uid="uid://xl4o2ckjxava" path="res://navmesh.res" id="2_lcfvj"]
 [ext_resource type="ArrayMesh" uid="uid://gmytdjp2bcsq" path="res://level_mesh.res" id="3_1cas0"]
-[ext_resource type="ArrayMesh" uid="uid://prwe6io8p1iv" path="res://robot.res" id="5_ple0n"]
+[ext_resource type="PackedScene" uid="uid://c1j6vfe3s2bq8" path="res://player/cubio.tscn" id="5_fbvla"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ps07l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -39,11 +39,22 @@ directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 35.0
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navmesh = ExtResource("2_lcfvj")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.228514, -0.96038, -0.0471058)
+navigation_mesh = ExtResource("2_lcfvj")
 
 [node name="LevelMesh" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.0452547, 0)
 mesh = ExtResource("3_1cas0")
+
+[node name="Cubio" parent="NavigationRegion3D/LevelMesh" instance=ExtResource("5_fbvla")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.331188, 0)
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/LevelMesh"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/LevelMesh/NavigationObstacle3D"]
+transform = Transform3D(2.11095, 0, 0, 0, 2.59858, 0, 0, 0, 4.4642, -1.71068, 7.33174, 9.29559)
+use_collision = true
+size = Vector3(0.308136, 1.2313, 1)
 
 [node name="DrawPath" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_noou6")
@@ -56,10 +67,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.07475, 0, 1.96678)
 transform = Transform3D(-0.560554, -0.429252, 0.708182, 0.106298, 0.8108, 0.575591, -0.821267, 0.397928, -0.408869, 18.091, 14.744, -7.017)
 fov = 50.0
 near = 0.1
-
-[node name="RobotBase" type="Marker3D" parent="."]
-
-[node name="Robot" type="MeshInstance3D" parent="RobotBase"]
-transform = Transform3D(-0.5, 0, -7.54979e-08, 0, 1, 0, 7.54979e-08, 0, -0.5, 0, 1, 0)
-gi_mode = 2
-mesh = ExtResource("5_ple0n")

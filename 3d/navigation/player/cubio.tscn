@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1j6vfe3s2bq8"]
+
+[ext_resource type="Script" path="res://player/cubio.gd" id="1"]
+[ext_resource type="ArrayMesh" uid="uid://prwe6io8p1iv" path="res://player/robot.res" id="2_n6015"]
+
+[sub_resource type="BoxShape3D" id="1"]
+margin = 0.001
+size = Vector3(1.39857, 0.9, 0.9)
+
+[node name="Cubio" type="CharacterBody3D"]
+script = ExtResource("1")
+
+[node name="BoxMesh" type="MeshInstance3D" parent="."]
+_import_path = NodePath("cube-col")
+mesh = ExtResource("2_n6015")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.257378, 0)
+shape = SubResource("1")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+debug_enabled = true
+
+[connection signal="link_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_link_reached"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="waypoint_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_waypoint_reached"]
